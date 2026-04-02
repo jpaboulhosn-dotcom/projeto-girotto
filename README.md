@@ -1,23 +1,23 @@
 Me chamo João Paulo e esse é um projeto desenvolvido para fins acadêmicos, com foco no aprendizado de lógica de programação em C a pedido do professor Pedro giroto do CESUPA. 
 Este projeto tem como objetivo praticar conceitos fundamentais de programação em C por meio de minijogos, como:
 
-Estruturas condicionais (if/else)
-Estruturas de repetição (while, do while)
-Uso de funções (void)
-Vetores
-Entrada e saída de dados (scanf e printf)
-Geração de números aleatórios (rand)
+Estruturas condicionais (if/else);
+Estruturas de repetição (while, do while);
+Uso de funções (void);
+Vetores;
+Entrada e saída de dados (scanf e printf);
+Geração de números aleatórios (rand).
 
 
 O primeiro jogo (Pergunta e resposta) é um quiz simples de perguntas básicas que consegui fazer usando somente os comandos:(printf,scanf,if e else).
 
 O segundo jogo (Cobra na caixa!) já é um jogo mais interessante porque envolve aleatoriedade e dois jogadores. Nele, já foi preciso usar comandos mais compolexos, como o while, for e void.
 Ele contém:
-7 nomes pré-definidos
-sorteio de quem começa
-posições aleatórias da cobra e do botão
-loop até alguém ganhar ou perder
-opção de jogar novamente
+7 nomes pré-definidos;
+sorteio de quem começa;
+posições aleatórias da cobra e do botão;
+loop até alguém ganhar ou perder;
+opção de jogar novamente.
 Nesse jogo precisei usar o chatgpt para entender melhor o comando "void" e como aplicá-lo.
 
 O terceiro jogo (Gousmas war), é um jogo estratégico por turnos entre dois jogadores. A respeito da mecânica, O jogo é baseado em turnos alternados entre os dois jogadores. Em cada rodada, o jogador pode escolher entre duas ações:
