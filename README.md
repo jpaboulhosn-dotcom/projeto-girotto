@@ -1,4 +1,4 @@
-Me chamo João Paulo e esse é um projeto desenvolvido para fins acadêmicos, com foco no aprendizado de lógica de programação em C a pedido do professor Pedro giroto do CESUPA. 
+Me chamo João Paulo e esse é um projeto desenvolvido para fins acadêmicos, com foco no aprendizado de lógica de programação em C a pedido do professor Pedro girotto do CESUPA. 
 Este projeto tem como objetivo praticar conceitos fundamentais de programação em C por meio de minijogos, como:
 
 Estruturas condicionais (if/else);
