@@ -90,109 +90,141 @@ void cobraNaCaixa() {
 }
 
 /* ===================== JOGO 3: GOUSMAS WAR ===================== */
+/* Mostrar status */
 void mostrarStatus(int g1[], int g2[]) {
     printf("\n--- STATUS ---\n");
 
-    printf("Jogador 1:\n");
-    for (int i = 0; i < 2; i++)
-        printf("Gousma %d: %s\n", i, (g1[i] > 0) ? "Viva" : "Destruida");
+    printf("Jogador 1: ");
+    for (int i = 0; i < 2; i++) {
+        if (g1[i] > 0)
+            printf("[G%d:%d] ", i, g1[i]);
+        else
+            printf("[G%d:X] ", i);
+    }
 
-    printf("\nJogador 2:\n");
-    for (int i = 0; i < 2; i++)
-        printf("Gousma %d: %s\n", i, (g2[i] > 0) ? "Viva" : "Destruida");
+    printf("\nJogador 2: ");
+    for (int i = 0; i < 2; i++) {
+        if (g2[i] > 0)
+            printf("[G%d:%d] ", i, g2[i]);
+        else
+            printf("[G%d:X] ", i);
+    }
+
+    printf("\n");
 }
 
+/* Verifica derrota */
 int perdeu(int g[]) {
-    return g[0] == 0 && g[1] == 0;
+    if (g[0] == 0 && g[1] == 0)
+        return 1;
+    else
+        return 0;
 }
 
+/* Ataque */
 void atacar(int a[], int d[]) {
     int x, y;
 
-    printf("Sua Gousma (0-1): ");
+    printf("Sua Gousma (0 ou 1): ");
     scanf("%d", &x);
 
-    printf("Alvo (0-1): ");
+    printf("Alvo (0 ou 1): ");
     scanf("%d", &y);
 
     if (a[x] == 0 || d[y] == 0) {
-        printf("Invalido!\n");
+        printf("Jogada invalida!\n");
         return;
     }
 
-    d[y] += a[x];
+    d[y] = d[y] + a[x];
 
     if (d[y] > 5) {
-        printf(" Desintegrou!\n");
+        printf("Gousma inimiga morreu!\n");
         d[y] = 0;
     }
 }
 
+/* Dividir */
 void dividir(int g[]) {
-    int i, j = -1;
+    int i;
 
-    printf("Qual dividir (0-1): ");
+    printf("Qual Gousma dividir (0 ou 1): ");
     scanf("%d", &i);
 
     if (g[i] <= 1) {
-        printf("Nao pode!\n");
+        printf("Nao pode dividir!\n");
         return;
     }
 
-    for (int k = 0; k < 2; k++)
-        if (g[k] == 0) { j = k; break; }
-
-    if (j == -1) {
-        printf("Limite atingido!\n");
+    // verificar espaço livre
+    if (g[0] != 0 && g[1] != 0) {
+        printf("Limite de Gousmas atingido!\n");
         return;
     }
 
     int metade = g[i] / 2;
-    g[i] -= metade;
-    g[j] = metade;
+
+    g[i] = g[i] - metade;
+
+    if (g[0] == 0)
+        g[0] = metade;
+    else
+        g[1] = metade;
+
+    printf("Divisao feita!\n");
 }
 
+/* Jogo principal */
 void gousmasWar() {
-    int g1[2] = {1,1};
-    int g2[2] = {1,1};
-    int vez = 0, op;
+    int g1[2] = {1, 1};
+    int g2[2] = {1, 1};
 
+    int vez = 0;
+    int op;
     int turnos = 0;
-    int MAX_TURNOS = 30; // limite
 
     while (1) {
         mostrarStatus(g1, g2);
 
-        printf("\nJogador %d\n1-Atacar\n2-Dividir\n", vez+1);
+        printf("\nJogador %d\n", vez + 1);
+        printf("1 - Atacar\n2 - Dividir\n");
         scanf("%d", &op);
 
         if (vez == 0) {
-            if (op == 1) atacar(g1, g2);
-            else dividir(g1);
+            if (op == 1)
+                atacar(g1, g2);
+            else
+                dividir(g1);
         } else {
-            if (op == 1) atacar(g2, g1);
-            else dividir(g2);
+            if (op == 1)
+                atacar(g2, g1);
+            else
+                dividir(g2);
         }
 
-        // Verifica vitória
+        // verificar vitória
         if (perdeu(g1)) {
-            printf("\n Jogador 2 venceu!\n");
+            printf("\nJogador 2 venceu!\n");
             break;
         }
 
         if (perdeu(g2)) {
-            printf("\n Jogador 1 venceu!\n");
+            printf("\nJogador 1 venceu!\n");
             break;
         }
 
-        // controle de turnos
+        // limite de turnos
         turnos++;
-        if (turnos >= MAX_TURNOS) {
-            printf("\n Empate! Limite de turnos atingido.\n");
+        if (turnos == 30) {
+            printf("\nEmpate!\n");
             break;
         }
 
-        vez = 1 - vez;
+        // troca de jogador
+        if (vez == 0)
+            vez = 1;
+        else
+            vez = 0;
     }
 }
 
