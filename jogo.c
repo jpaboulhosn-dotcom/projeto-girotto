@@ -76,16 +76,29 @@ void cobraNaCaixa() {
         printf("Escolha uma caixa (0 a 4): ");
         scanf("%d", &caixa);
 
-        if (caixa == cobra) {
-            printf(" COBRA! %s perdeu!\n", (vez == 0) ? j1 : j2);
-            break;
-        } else if (caixa == botao) {
-            printf(" BOTAO! %s venceu!\n", (vez == 0) ? j1 : j2);
-            break;
-        } else {
-            printf("Caixa vazia...\n");
-            vez = 1 - vez;
-        }
+       if (caixa == cobra) {
+        printf(" COBRA! ");
+
+        if (vez == 0)
+            printf("%s perdeu!\n", j1);
+        else
+            printf("%s perdeu!\n", j2);
+
+        break;
+
+    } else if (caixa == botao) {
+        printf(" BOTAO! ");
+
+        if (vez == 0)
+            printf("%s venceu!\n", j1);
+        else
+            printf("%s venceu!\n", j2);
+
+        break;
+
+    } else {
+        printf("Caixa vazia...\n");
+        vez = 1 - vez;
     }
 }
 /* ===================JOGO 3: GOUSMAS WAR=================== */
