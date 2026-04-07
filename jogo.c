@@ -242,7 +242,7 @@ void gousmasWar() {
     int g1[2];
     int g2[2];
 
-    // Inicializando manualmente (mais simples de entender)
+    
     g1[0] = 1;
     g1[1] = 1;
 
