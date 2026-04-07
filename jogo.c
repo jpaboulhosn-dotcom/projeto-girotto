@@ -88,142 +88,235 @@ void cobraNaCaixa() {
         }
     }
 }
-
-/* ===================== JOGO 3: GOUSMAS WAR ===================== */
+/* ===================JOGO 3: GOUSMAS WAR=================== */
+/* ===================== MOSTRAR STATUS ===================== */
 void mostrarStatus(int g1[], int g2[]) {
-    int i;
 
-    printf("\n--- STATUS ---\n");
+    printf("\n====================\n");
+    printf("STATUS DO JOGO\n");
+    printf("====================\n");
 
-    printf("Jogador 1: ");
-    for (i = 0; i < 2; i++) {
-        if (g1[i] > 0)
-            printf("[G%d:%d] ", i, g1[i]);
-        else
-            printf("[G%d:X] ", i);
+    // Jogador 1
+    printf("Jogador 1:\n");
+
+    if (g1[0] > 0) {
+        printf("Gousma 0 = %d\n", g1[0]);
+    } else {
+        printf("Gousma 0 = X (morta)\n");
     }
 
-    printf("\nJogador 2: ");
-    for (i = 0; i < 2; i++) {
-        if (g2[i] > 0)
-            printf("[G%d:%d] ", i, g2[i]);
-        else
-            printf("[G%d:X] ", i);
+    if (g1[1] > 0) {
+        printf("Gousma 1 = %d\n", g1[1]);
+    } else {
+        printf("Gousma 1 = X (morta)\n");
+    }
+
+    // Jogador 2
+    printf("\nJogador 2:\n");
+
+    if (g2[0] > 0) {
+        printf("Gousma 0 = %d\n", g2[0]);
+    } else {
+        printf("Gousma 0 = X (morta)\n");
+    }
+
+    if (g2[1] > 0) {
+        printf("Gousma 1 = %d\n", g2[1]);
+    } else {
+        printf("Gousma 1 = X (morta)\n");
     }
 
     printf("\n");
 }
 
-/* Verifica se perdeu */
+/* ===================== VERIFICAR DERROTA ===================== */
 int perdeu(int g[]) {
-    if (g[0] == 0 && g[1] == 0)
-        return 1;
+
+    // Se as duas forem 0, perdeu
+    if (g[0] == 0) {
+        if (g[1] == 0) {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
-/* Ataque */
+/* ===================== ATAQUE ===================== */
 void atacar(int atacante[], int defensor[]) {
-    int x, y;
+
+    int escolhaMinha;
+    int escolhaInimigo;
+
+    printf("\n--- ATAQUE ---\n");
 
     printf("Escolha sua gousma (0 ou 1): ");
-    scanf("%d", &x);
+    scanf("%d", &escolhaMinha);
 
-    printf("Escolha o alvo (0 ou 1): ");
-    scanf("%d", &y);
+    printf("Escolha qual atacar (0 ou 1): ");
+    scanf("%d", &escolhaInimigo);
 
-    if (atacante[x] == 0 || defensor[y] == 0) {
-        printf("Jogada invalida!\n");
+    // Verificar se escolhas são válidas
+    if (escolhaMinha != 0 && escolhaMinha != 1) {
+        printf("Escolha invalida!\n");
         return;
     }
 
-    defensor[y] = defensor[y] + atacante[x];
+    if (escolhaInimigo != 0 && escolhaInimigo != 1) {
+        printf("Escolha invalida!\n");
+        return;
+    }
 
-    if (defensor[y] > 5) {
-        defensor[y] = 0;
-        printf("Gousma inimiga morreu!\n");
+    // Verificar se as gousmas existem
+    if (atacante[escolhaMinha] == 0) {
+        printf("Sua gousma esta morta!\n");
+        return;
+    }
+
+    if (defensor[escolhaInimigo] == 0) {
+        printf("Gousma inimiga ja esta morta!\n");
+        return;
+    }
+
+    // Fazer ataque
+    int valorAtaque = atacante[escolhaMinha];
+    int valorDefesa = defensor[escolhaInimigo];
+
+    int resultado = valorDefesa + valorAtaque;
+
+    defensor[escolhaInimigo] = resultado;
+
+    printf("Ataque realizado!\n");
+
+    // Verificar se morreu
+    if (defensor[escolhaInimigo] > 5) {
+        defensor[escolhaInimigo] = 0;
+        printf("A gousma inimiga morreu!\n");
     }
 }
 
-/* Dividir */
+/* ===================== DIVIDIR ===================== */
 void dividir(int g[]) {
-    int i, metade;
 
-    printf("Qual gousma dividir (0 ou 1): ");
-    scanf("%d", &i);
+    int escolha;
 
-    if (g[i] <= 1) {
-        printf("Nao pode dividir!\n");
+    printf("\n--- DIVIDIR ---\n");
+
+    printf("Qual gousma voce quer dividir (0 ou 1): ");
+    scanf("%d", &escolha);
+
+    if (escolha != 0 && escolha != 1) {
+        printf("Escolha invalida!\n");
         return;
     }
 
+    if (g[escolha] <= 1) {
+        printf("Nao pode dividir essa gousma!\n");
+        return;
+    }
+
+    // Verificar espaço
     if (g[0] != 0 && g[1] != 0) {
-        printf("Sem espaco para dividir!\n");
+        printf("Nao ha espaco para dividir!\n");
         return;
     }
 
-    metade = g[i] / 2;
-    g[i] = g[i] - metade;
+    int metade;
+    metade = g[escolha] / 2;
 
-    if (g[0] == 0)
+    g[escolha] = g[escolha] - metade;
+
+    // Colocar a nova gousma
+    if (g[0] == 0) {
         g[0] = metade;
-    else
+    } else {
         g[1] = metade;
+    }
 
-    printf("Dividiu!\n");
+    printf("Divisao realizada!\n");
 }
 
-/* Jogo principal */
+/* ===================== JOGO ===================== */
 void gousmasWar() {
-    int g1[2] = {1, 1};
-    int g2[2] = {1, 1};
 
-    int vez = 0;
-    int op;
-    int turnos = 0;
+    int g1[2];
+    int g2[2];
+
+    // Inicializando manualmente (mais simples de entender)
+    g1[0] = 1;
+    g1[1] = 1;
+
+    g2[0] = 1;
+    g2[1] = 1;
+
+    int jogadorAtual = 0;
+    int opcao;
+    int contadorTurnos = 0;
 
     while (1) {
+
         mostrarStatus(g1, g2);
 
-        printf("\nJogador %d\n", vez + 1);
-        printf("1 - Atacar\n2 - Dividir\n");
-        scanf("%d", &op);
+        printf("\n====================\n");
+        printf("Vez do jogador %d\n", jogadorAtual + 1);
+        printf("====================\n");
 
-        if (vez == 0) {
-            if (op == 1)
+        printf("1 - Atacar\n");
+        printf("2 - Dividir\n");
+
+        scanf("%d", &opcao);
+
+        // Jogador 1
+        if (jogadorAtual == 0) {
+
+            if (opcao == 1) {
                 atacar(g1, g2);
-            else
+            }
+
+            if (opcao == 2) {
                 dividir(g1);
-        } else {
-            if (op == 1)
-                atacar(g2, g1);
-            else
-                dividir(g2);
+            }
         }
 
-        if (perdeu(g1)) {
+        // Jogador 2
+        if (jogadorAtual == 1) {
+
+            if (opcao == 1) {
+                atacar(g2, g1);
+            }
+
+            if (opcao == 2) {
+                dividir(g2);
+            }
+        }
+
+        // Verificar vitória
+        if (perdeu(g1) == 1) {
             printf("\nJogador 2 venceu!\n");
             break;
         }
 
-        if (perdeu(g2)) {
+        if (perdeu(g2) == 1) {
             printf("\nJogador 1 venceu!\n");
             break;
         }
 
-        turnos++;
+        // Contador de turnos
+        contadorTurnos = contadorTurnos + 1;
 
-        if (turnos == 30) {
+        if (contadorTurnos == 30) {
             printf("\nEmpate!\n");
             break;
         }
 
-        if (vez == 0)
-            vez = 1;
-        else
-            vez = 0;
+        // Trocar jogador
+        if (jogadorAtual == 0) {
+            jogadorAtual = 1;
+        } else {
+            jogadorAtual = 0;
+        }
     }
 }
-
 
 
 /* ===================== MENU PRINCIPAL ===================== */
